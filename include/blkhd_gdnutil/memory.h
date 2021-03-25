@@ -14,4 +14,14 @@ std::shared_ptr<T> make_new()
 	return std::shared_ptr<T>(T::_new(), [](T* o) { o->free(); });
 }
 
+template <class T, class ... Args>
+std::shared_ptr<T> make_new(Args... args)
+{
+	const auto out = std::shared_ptr<T>(T::_new(), [](T* o) { o->free(); });
+
+	out->construct(args...);
+
+	return out;
+}
+
 }}
