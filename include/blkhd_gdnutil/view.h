@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 #pragma warning(push, 0)
 #include <Transform2D.hpp>
 #include <Vector2.hpp>
