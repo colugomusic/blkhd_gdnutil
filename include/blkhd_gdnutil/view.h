@@ -18,6 +18,9 @@ public:
 	std::uint32_t get_age() const { return age_; }
 	const godot::Transform2D& get_view() const { return view_; }
 
+	const godot::Transform2D& operator*() const { return get_view(); }
+	const godot::Transform2D* operator->() const { return &view_; }
+
 	void set_view(const godot::Transform2D& view)
 	{
 		view_ = view;
