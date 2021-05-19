@@ -9,39 +9,9 @@ namespace memory {
 // T should be derived from godot::Object
 // 
 template <class T>
-std::shared_ptr<T> make_new()
+std::shared_ptr<T> make_shared()
 {
 	return std::shared_ptr<T>(T::_new(), [](T* o) { o->free(); });
-}
-
-template <class T, class ... Args>
-std::shared_ptr<T> make_new(Args... args)
-{
-	const auto out = std::shared_ptr<T>(T::_new(), [](T* o) { o->free(); });
-
-	out->construct(args...);
-
-	return out;
-}
-
-template <class T>
-std::shared_ptr<T> construct()
-{
-    const auto out = std::shared_ptr<T>(T::_new(), [](T* o) { o->free(); });
-
-    out->construct();
-
-    return out;
-}
-
-template <class T, class ... Args>
-std::shared_ptr<T> construct(Args... args)
-{
-    const auto out = std::shared_ptr<T>(T::_new(), [](T* o) { o->free(); });
-
-    out->construct(args...);
-
-    return out;
 }
 
 }}
