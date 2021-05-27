@@ -50,7 +50,10 @@ private:
 	void construct(Args ... args)
 	{
 		object_ = std::make_unique<T>(args...);
+		post_construct();
 	}
+
+	virtual void post_construct() {}
 
 	std::unique_ptr<T> object_;
 };
