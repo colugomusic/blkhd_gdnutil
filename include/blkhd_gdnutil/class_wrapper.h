@@ -44,16 +44,31 @@ public:
 		return out;
 	}
 
+	static std::shared_ptr<GDN> make_shared(std::shared_ptr<T> object)
+	{
+		const auto out = std::shared_ptr<GDN>(GDN::_new(), [](GDN* o) { o->free(); });
+
+		out->construct(object);
+
+		return out;
+	}
+
 private:
 
 	template <class ... Args>
 	void construct(Args ... args)
 	{
-		object_ = std::make_unique<T>(args...);
+		object_ = std::make_shared<T>(args...);
+		post_construct();
+	}
+
+	void construct(std::shared_ptr<T> object)
+	{
+		object_ = object;
 		post_construct();
 	}
 
 	virtual void post_construct() {}
 
-	std::unique_ptr<T> object_;
+	std::shared_ptr<T> object_;
 };
