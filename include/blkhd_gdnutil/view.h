@@ -27,28 +27,76 @@ public:
 		age_++;
 	}
 
-	template <class T>
-	T song_to_screen(T position) const
+	float song_to_screen(int position) const
 	{
-		return T(view_.xform(godot::Vector2(1, 1) * real_t(position)).x);
+		return (view_.elements[0][0] * position + view_.elements[1][0]) + view_.elements[2].x;
 	}
 
-	template <class T>
-	T screen_to_song(T position) const
+	float song_to_screen(float position) const
 	{
-		return T(view_.affine_inverse().xform(godot::Vector2(1, 1) * real_t(position)).x);
+		return (view_.elements[0][0] * position + view_.elements[1][0]) + view_.elements[2].x;
 	}
 
-	template <class T>
-	T basis_song_to_screen(T position) const
+	double song_to_screen(double position) const
 	{
-		return T(view_.basis_xform(godot::Vector2(1, 1) * real_t(position)).x);
+		return (double(view_.elements[0][0]) * position + double(view_.elements[1][0])) + double(view_.elements[2].x);
 	}
 
-	template <class T>
-	T basis_screen_to_song(T position) const
+	float screen_to_song(int position) const
 	{
-		return T(view_.affine_inverse().basis_xform(godot::Vector2(1, 1) * real_t(position)).x);
+		const auto inverse = view_.affine_inverse();
+
+		return (inverse.elements[0][0] * position + inverse.elements[1][0]) + inverse.elements[2][0];
+	}
+
+	float screen_to_song(float position) const
+	{
+		const auto inverse = view_.affine_inverse();
+
+		return (inverse.elements[0][0] * position + inverse.elements[1][0]) + inverse.elements[2][0];
+	}
+
+	double screen_to_song(double position) const
+	{
+		const auto inverse = view_.affine_inverse();
+
+		return (double(inverse.elements[0][0]) * position + double(inverse.elements[1][0])) + double(inverse.elements[2][0]);
+	}
+
+	float basis_song_to_screen(int position) const
+	{
+		return view_.elements[0][0] * position + view_.elements[1][0];
+	}
+
+	float basis_song_to_screen(float position) const
+	{
+		return view_.elements[0][0] * position + view_.elements[1][0];
+	}
+
+	double basis_song_to_screen(double position) const
+	{
+		return double(view_.elements[0][0]) * position + double(view_.elements[1][0]);
+	}
+
+	float basis_screen_to_song(int position) const
+	{
+		const auto inverse = view_.affine_inverse();
+
+		return inverse.elements[0][0] * position + inverse.elements[1][0];
+	}
+
+	float basis_screen_to_song(float position) const
+	{
+		const auto inverse = view_.affine_inverse();
+
+		return inverse.elements[0][0] * position + inverse.elements[1][0];
+	}
+
+	double basis_screen_to_song(double position) const
+	{
+		const auto inverse = view_.affine_inverse();
+
+		return double(inverse.elements[0][0]) * position + double(inverse.elements[1][0]);
 	}
 
 	godot::Vector2 song_to_screen(godot::Vector2 p) const
